@@ -10,13 +10,23 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 });
 
 const analyzeParams = {
-  html:
-    "<html><head><title>Fruits</title></head><body><h1>Apples and Oranges</h1><p>I love apples! I don't like oranges.</p></body></html>",
+  text: `
+  "test 123 Tue Mar 2 16:26"
+"AAAAA Tue 7:39 test"
+"<@U01PQ2XPQ91> has joined the channel"
+"into a .env"
+"<https://api.slack.com/apps>"
+"<@U01PHDA47JA> has joined the channel"
+"<@U01PPQEP70S> hey this is, guess what, another test message!"
+"random test message"
+"<@U01PPQEP70S> has joined the channel"
+`,
+
   features: {
     keywords: {
       sentiment: true,
       emotion: true,
-      limit: 3,
+      limit: 10,
     },
   },
 };
