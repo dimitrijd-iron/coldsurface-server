@@ -1,10 +1,16 @@
-### Description
+## Description
+
+------
 
 It a SaaS providing insights on employee and customer engagement and sentiment. By subscribing to coldsurface services, the managers and hr professionals are able to monitor and understand employees attitude and reactions towards business environment and company's initiatives.
 
 
 
-### User Stories
+## User Stories
+
+------
+
+
 
 - **404:** it is shown when we try to access to an end point which doesn't exist
 
@@ -28,7 +34,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
   
 
-### Backlog
+## Backlog
 
 - Zoom API
 
@@ -38,28 +44,39 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
   
 
-### Client
+## Client/ Frontend
 
 ------
 
-#### Routes
+### React Router Routes (React App)
 
-| Path                | Component              | Permissions | Behavior                                                     |
-| ------------------- | ---------------------- | ----------- | ------------------------------------------------------------ |
-| /                   | MainPage               | all         | Link to login and signup in public                           |
-| /signup             | SignupPage             | anon only   | signup form, link to login, navigate to homepage after signup |
-| /login              | LoginPage              | anon only   | login form, link to signup, navigate to homepage after login |
-| /home-page          | HomePage               | user only   | link to main dashboards, dashboard page, user profile and log out |
-| /edit-profile       | UserProfilePage        | user only   | form to update user's data                                   |
-| /dashboards         | DashboardPage          | user only   | list of all available dashboards, and link to home page, user profile and log out |
-| /channelDashboard   | ChannelDashboardPage   | user only   | channel dashboard, with link to all the remaining dashboards |
-| /workPlaceDashboard | WorkPlaceDashboardPage | user only   | work place dashboard, with link to all the remaining dashboards |
-| /userDashboard      | UserDashboardPage      | user only   | user dashboard, with link to all the remaining dashboards    |
+| Path                    | Component              | Permissions                | Behavior                                                     |
+| ----------------------- | ---------------------- | -------------------------- | ------------------------------------------------------------ |
+| `/`                     | MainPage               | public `<Route>`           | Link to login and signup in public                           |
+| `/signup`               | SignupPage             | anon only `<AnonRoute>`    | Signup form, link to login, navigate to homepage after signup |
+| `/login`                | LoginPage              | anon only `<AnonRoute>`    | Login form, link to signup, navigate to homepage after login |
+| `/home-page`            | HomePage               | user only `<PrivateRoute>` | Link to main dashboards, dashboard page, user profile and log out |
+| `/edit-profile`         | UserProfilePage        | user only `<PrivateRoute>` | Form to update user's data                                   |
+| `/dashboards`           | DashboardPage          | user only `<PrivateRoute>` | List of all available dashboards, and link to home page, user profile and log out |
+| `/channel-dashboard`    | ChannelDashboardPage   | user only `<PrivateRoute>` | Channel dashboard, with link to all the remaining dashboards |
+| `/work-place-dashboard` | WorkPlaceDashboardPage | user only `<PrivateRoute>` | Work place dashboard, with link to all the remaining dashboards |
+| `/user-dashboard`       | UserDashboardPage      | user only `<PrivateRoute>` | User dashboard, with link to all the remaining dashboards    |
 
 
 
-##### Components
+### Components
 
+------
+
+- MainPage
+- SignupPage
+- LoginPage
+- HomePage
+- UserProfilePage
+- DashboardPage
+- ChannelDashboardPage
+- WorkPlaceDashboardPage
+- UserDashboardPage
 - AnonRoute
 
 - PrivateRoute
@@ -76,9 +93,9 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-##### Services
+#### Services
 
-- auth-service
+- Auth Service
   - auth.signup( username, password ) 
   - auth.login( username, password ) 
   - auth.logout
@@ -86,14 +103,16 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-### Server
+## Server/ Backend
 
 ------
 
-##### Models
+### Models
+
+##### User Model
 
 ```javascript
-user = {
+{
 
 ​	username: String,
 
@@ -114,8 +133,16 @@ user = {
 
 
 
+<br>
+
+
+
+
+
+##### RawData Model
+
 ```javascript
-raw-data = {
+{
 
 ​	messageId:  String,
 
@@ -150,8 +177,16 @@ raw-data = {
 
 ​	
 
+<br>
+
+
+
+
+
+##### Statistics Model
+
 ```javascript
-statistics = {
+{
 
 ​	day: { type: Date, default: Date.now } ,
 
@@ -161,7 +196,7 @@ statistics = {
 
 ​	numberOfMessages: Number,
 
- 	emotionAverage: {
+​	emotionAverage: {
 
 ​		 sadness: Number,
 
@@ -169,7 +204,7 @@ statistics = {
 
 ​		 fear: Number,
 
- 		disgust: Number,
+​		 disgust: Number,
 
 ​		 anger: Number,
 
@@ -184,45 +219,29 @@ statistics = {
 
 
 
-##### API Endpoints (backend routes) 
+### API Endpoints (backend routes) 
 
-- GET /auth/me
+------
 
-  - 200 with user object
+| HTTP Method | URL            | Request Body         | Success status | Error Status | Description                                                  |
+| ----------- | -------------- | -------------------- | -------------- | ------------ | ------------------------------------------------------------ |
+| GET         | `/auth/me`     | Saved session        | 200            | 404          | Check if user is logged in and return profile page           |
+| POST        | `/auth/signup` | {email, password}    | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
+| POST        | `/auth/login`  | {username, password} | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
+| POST        | `/auth/logout` | (empty)              | 204            | 400          | Logs out the user                                            |
 
-- POST /auth/signup
 
-  - 201 if user is created
-  - 500  internal server error
-  - body:
-    - username
-    - password
-  - create user with encrypted password
-  - store user in session
 
-- POST /auth/login
+### Services
 
-  - 401  unauthorized
-  - 500  internal server error
-  - body:
-    - username
-    - password
-  - validation
-    - store user in session
-    - 200 with user object
+------
 
-- POST /auth/logout
 
-  - 204 No content
-
-    
-
-##### Services
 
 - Slack API
 
-  - slackapi.channels( ) 
-  - slackapi.messages( ) 
+  - slackapi.channels() 
+  - slackapi.messages() 
 
 - Watson API
 
@@ -230,7 +249,11 @@ statistics = {
 
   
 
-##### States and States Transitions
+### States and States Transitions
+
+------
+
+
 
 - Landing page
 
@@ -244,7 +267,11 @@ statistics = {
 
   
 
-##### Task
+### Task
+
+------
+
+
 
 - Setup architecture product
 - Create User, raw-data and statistics models
@@ -255,16 +282,24 @@ statistics = {
 
 
 
-##### Links
+### Links
 
-### Trello
+------
 
-[Link url](https://trello.com/b/zsAbyr5C/project-3)
+
+
+### Trello/ Kanban
+
+[Kanban Link](https://trello.com/b/zsAbyr5C/project-3)
 
 ### Git
 
-[coldsurface-server](https://github.com/dimitrijd-iron/coldsurface-server)
+[Server repository Link](https://github.com/dimitrijd-iron/coldsurface-server)
 
-[coldsurface-client](https://github.com/cucabel/coldsurface-client)
+[Client repository Link](https://github.com/cucabel/coldsurface-client)
+
+[Deployed App Link](https://github.com/cucabel/coldsurface-client)
 
 ### Slides
+
+[Slides Link
