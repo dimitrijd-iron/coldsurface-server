@@ -15,6 +15,7 @@ const analyzeParams = {
 "AAAAA Tue 7:39 test"
 "<@U01PQ2XPQ91> has joined the channel"
 "into a .env"
+"just joined IronHack - it's amazing!!! I love it! :)"
 "<https://api.slack.com/apps>"
 "<@U01PHDA47JA> has joined the channel"
 "<@U01PPQEP70S> hey this is, guess what, another test message!"
@@ -25,11 +26,9 @@ const analyzeParams = {
   features: {
     emotion: {
       document: true,
-      targets: ["channel"],
     },
     sentiment: {
       document: true,
-      targets: ["channel"],
     },
   },
 };
