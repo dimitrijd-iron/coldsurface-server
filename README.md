@@ -1,14 +1,10 @@
 ## Description
 
-------
-
 It a SaaS providing insights on employee and customer engagement and sentiment. By subscribing to coldsurface services, the managers and hr professionals are able to monitor and understand employees attitude and reactions towards business environment and company's initiatives.
 
 
 
 ## User Stories
-
-------
 
 
 
@@ -44,9 +40,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
   
 
-## Client/ Frontend
-
-------
+# Client/ Frontend
 
 ### React Router Routes (React App)
 
@@ -64,9 +58,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-### Components
-
-------
+## Components
 
 - MainPage
 - SignupPage
@@ -93,7 +85,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-#### Services
+## Services
 
 - Auth Service
   - auth.signup( username, password ) 
@@ -103,13 +95,11 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-## Server/ Backend
+# Server/ Backend
 
-------
+## Models
 
-### Models
-
-##### User Model
+#### User Model
 
 ```javascript
 {
@@ -118,7 +108,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 ​	password: String,
 
-​   company: String,
+​ company: String,
 
 ​	timestamps: {
 
@@ -131,15 +121,9 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 }
 ```
 
-
-
 <br>
 
-
-
-
-
-##### RawData Model
+#### RawData Model
 
 ```javascript
 {
@@ -175,15 +159,9 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 }
 ```
 
-​	
-
 <br>
 
-
-
-
-
-##### Statistics Model
+#### Statistics Model
 
 ```javascript
 {
@@ -219,9 +197,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-### API Endpoints (backend routes) 
-
-------
+## API Endpoints (backend routes) 
 
 | HTTP Method | URL            | Request Body         | Success status | Error Status | Description                                                  |
 | ----------- | -------------- | -------------------- | -------------- | ------------ | ------------------------------------------------------------ |
@@ -232,11 +208,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-### Services
-
-------
-
-
+## Services
 
 - Slack API
 
@@ -249,11 +221,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
   
 
-### States and States Transitions
-
-------
-
-
+## States and States Transitions
 
 - Landing page
 
@@ -267,11 +235,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
   
 
-### Task
-
-------
-
-
+## Task
 
 - Setup architecture product
 - Create User, raw-data and statistics models
@@ -282,11 +246,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-### Links
-
-------
-
-
+## Links
 
 ### Trello/ Kanban
 
@@ -298,8 +258,8 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 [Client repository Link](https://github.com/cucabel/coldsurface-client)
 
-[Deployed App Link](https://github.com/cucabel/coldsurface-client)
+[Deployed App Link]()
 
 ### Slides
 
-[Slides Link
+[Slides Link]()
