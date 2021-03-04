@@ -7,12 +7,8 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const User = require("../models/user.model");
 
-
-
 // HELPER FUNCTIONS
 const { isLoggedIn, isNotLoggedIn, validateAuthData } = require("../helpers/middleware");
-
-
 
 // POST '/auth/signup'
 router.post('/signup', isNotLoggedIn, validateAuthData, async (req, res, next) => {
