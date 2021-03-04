@@ -58,7 +58,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-#### Components
+##### Components
 
 - AnonRoute
 
@@ -76,7 +76,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 
 
-#### Services
+##### Services
 
 - auth-service
   - auth.signup( username, password ) 
@@ -90,7 +90,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 ------
 
-#### Models
+##### Models
 
 ```javascript
 user = {
@@ -184,7 +184,7 @@ statistics = {
 
 
 
-#### API Endpoints (backend routes) 
+##### API Endpoints (backend routes) 
 
 - GET /auth/me
 
@@ -217,7 +217,7 @@ statistics = {
 
     
 
-#### Services
+##### Services
 
 - Slack API
 
@@ -230,7 +230,7 @@ statistics = {
 
   
 
-#### States and States Transitions
+##### States and States Transitions
 
 - Landing page
 
@@ -244,7 +244,7 @@ statistics = {
 
   
 
-#### Task
+##### Task
 
 - Setup architecture product
 - Create User, raw-data and statistics models
@@ -255,7 +255,7 @@ statistics = {
 
 
 
-#### Links
+##### Links
 
 ### Trello
 
