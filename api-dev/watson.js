@@ -23,10 +23,13 @@ const analyzeParams = {
 `,
 
   features: {
-    keywords: {
-      sentiment: true,
-      emotion: true,
-      limit: 10,
+    emotion: {
+      document: true,
+      targets: ["channel"],
+    },
+    sentiment: {
+      document: true,
+      targets: ["channel"],
     },
   },
 };
