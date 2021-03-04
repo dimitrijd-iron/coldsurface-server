@@ -2,43 +2,32 @@
 
 It a SaaS providing insights on employee and customer engagement and sentiment. By subscribing to coldsurface services, the managers and hr professionals are able to monitor and understand employees attitude and reactions towards business environment and company's initiatives.
 
-
+<br>
 
 ## User Stories
 
 
 
 - **404:** it is shown when we try to access to an end point which doesn't exist
-
 - **Signup:** anon can sign up in order to have access to the service
-
 - **Login:** signed up users can login and access to their profiles and dashboards
-
 - **Logout:** logged in users can logout in order to close the session
-
 - **Users profile**: users can access their profile to add, or update their information
-
 - **Home Page:** the user has the links to the main dashboards, can access the dashboard page with the list of all remaining dashboards, access its profile, and close the session if wanted.
-
 - **Dashboards:** there are displayed all the dashboards the user can access
-
 - **Channel dashboard :** the user can analyse the sentiment of a slack channel
-
 - **Team dashboard :** the user can analyse the sentiment of an slack team 
-
 - **Daily dashboard:** the user can analyse the slack daily sentiment
 
-  
+<br>
 
 ## Backlog
 
 - Zoom API
-
 - GitHub API
-
 - CRUD
 
-  
+<br>
 
 # Client/ Frontend
 
@@ -56,7 +45,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 | `/work-place-dashboard` | WorkPlaceDashboardPage | user only `<PrivateRoute>` | Work place dashboard, with link to all the remaining dashboards |
 | `/user-dashboard`       | UserDashboardPage      | user only `<PrivateRoute>` | User dashboard, with link to all the remaining dashboards    |
 
-
+<br>
 
 ## Components
 
@@ -83,7 +72,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 - KPI
 
-
+<br>
 
 ## Services
 
@@ -93,7 +82,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
   - auth.logout
   - auth.me
 
-
+<br>
 
 # Server/ Backend
 
@@ -107,8 +96,8 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 ​	username: String,
 
 ​	password: String,
-
-​ company: String,
+    
+​   company: String,
 
 ​	timestamps: {
 
@@ -195,7 +184,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 }
 ```
 
-
+<br>
 
 ## API Endpoints (backend routes) 
 
@@ -206,34 +195,27 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 | POST        | `/auth/login`  | {username, password} | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session |
 | POST        | `/auth/logout` | (empty)              | 204            | 400          | Logs out the user                                            |
 
-
+<br>
 
 ## Services
 
 - Slack API
-
   - slackapi.channels() 
   - slackapi.messages() 
-
 - Watson API
-
   - watsonapi.nlp( ) 
 
-  
+<br>
 
 ## States and States Transitions
 
 - Landing page
-
 - Authentication
-
 - Home page
-
 - User Profiles
-
 - Dashboards pages
 
-  
+<br>
 
 ## Task
 
@@ -244,7 +226,7 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 - Create statistics based on the data retrieved from Watson
 - Create dashboards
 
-
+<br>
 
 ## Links
 
@@ -258,8 +240,8 @@ It a SaaS providing insights on employee and customer engagement and sentiment. 
 
 [Client repository Link](https://github.com/cucabel/coldsurface-client)
 
-[Deployed App Link]()
+[Deployed App Link](https://github.com/cucabel/coldsurface-client)
 
 ### Slides
 
-[Slides Link]()
+[Slides Link](https://github.com/cucabel/coldsurface-client)
