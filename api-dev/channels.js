@@ -13,3 +13,4 @@ const client = new WebClient(process.env.SLACK_TOKEN, {
   }
   console.log("request sent");
 })();
+
