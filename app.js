@@ -60,7 +60,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTER MIDDLEWARE
 app.use("/auth", authRouter);
 
-app.use("/api/users", usersRouter);
+app.use("/api/user", usersRouter);
 app.use("/api/projects", projectsRouter);
 
 // ERROR HANDLING

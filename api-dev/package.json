@@ -4,6 +4,8 @@
   "description": "sentiment-api",
   "main": "index.js",
   "scripts": {
+    "start": "node ./bin/www",
+    "start:dev": "nodemon ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

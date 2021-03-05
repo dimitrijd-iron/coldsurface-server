@@ -21,6 +21,8 @@ exports.validationLogin = (req, res, next) => {
   else next();
 };
 
+exports.validateAuthData
+
 
 
 // Above exporting is same as what we did before:
