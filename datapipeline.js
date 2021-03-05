@@ -44,14 +44,14 @@ insertRawData = async (rawdata) => {
   await insertChannels(deltaChannels);
 
   for (chan of slackChannels.map(({ channelId }) => channelId)) {
-    // for each existing channel in slack, get channel get the message history (ts, text, user)
+    // for each existing channel in slack, get the message history (ts, text, user)
     // console.log("===================", chan, "===================");
     let slackMessages = await slack.getMessages(chan);
     slackMessages = slackMessages.messages.map(({ ts, text, user }) => {
       return { ts, text, user };
     });
     // console.log(slackMessages);
-    // get message natural key ts from Mongo
+    // get message natural keys ts from Mongo
     let mongoMessages = await RawData.find({ channelId: chan }, "-_id ts");
     mongoMessages = mongoMessages.map(({ ts }) => ts);
     // console.log("mongo messages ----", mongoMessages);
@@ -62,10 +62,12 @@ insertRawData = async (rawdata) => {
     console.log(
       "vvvvvvvv ------- vvvvv ------ vvvvv DELTA ---------vvvvvvvv-----vvvvvvv"
     );
-
-    const sentiment = await watson.get(deltaMessages[0].text);
-    console.log(deltaMessages[0]);
-    console.log(JSON.stringify(sentiment));
+    for (ndex in deltaMessages) {
+      const nlpResults = await watson.get(deltaMessages[ndx].text);
+      deltaMessages[ndx].sentimentScore = nlpResults.sentiment.document.score;
+      deltaMessages[ndx].emotion = nlpResults.emotion.document;
+      // tsDate =
+    }
   }
 })();
 
