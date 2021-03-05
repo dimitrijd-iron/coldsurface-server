@@ -2,7 +2,7 @@ const slack = require("./services/slack.service");
 const watson = require("./services/watson.service");
 require("dotenv").config();
 
-// slack.getMessages("C01PH1LAT1U").then((data) => console.log(data));
+slack.getMessages("C01PH1LAT1U").then((data) => console.log(data));
 
 // slack
 //   .postMessage("today is Friday after lunch", "#random")
