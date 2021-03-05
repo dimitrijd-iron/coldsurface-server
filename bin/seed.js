@@ -85,18 +85,14 @@ const seedDB = async () => {
 
     const channelList = await Channel.create(channels);
     console.log("created channelList");
-    console.log(channelList);
 
     messages[0].channel = channelList[0]._id;
     messages[1].channel = channelList[0]._id;
-
     const messageList = await RawData.create(messages);
     console.log("created messageList");
-    console.log(messageList);
 
     const userList = await User.create(users);
     console.log("created userList");
-    console.log(userList);
 
     await mongoose.connection.close();
 
