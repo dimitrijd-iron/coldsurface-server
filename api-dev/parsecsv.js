@@ -2,6 +2,8 @@ const csv = require("csv-parser");
 const { parse } = require("fast-csv");
 const fs = require("fs");
 
+let ar2 = [];
+
 function parseCSV(fileURL) {
   const arr = [];
   const pr = new Promise((resolve, reject) => {
@@ -17,9 +19,9 @@ function parseCSV(fileURL) {
   });
   return pr;
 }
-
-parseCSV("kaggle.csv")
-  .then((arr) => console.log("arr ----->", arr))
-  .catch((err) => console.log(err));
+// function test
+// parseCSV("kaggle.csv")
+//   .then((arr) => console.log("arr ----->", arr))
+//   .catch((err) => console.log(err));
 
 module.exports = parseCSV;

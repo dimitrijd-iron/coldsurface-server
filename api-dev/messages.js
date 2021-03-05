@@ -1,10 +1,10 @@
 const { WebClient, LogLevel } = require("@slack/web-api");
 
 const client = new WebClient(process.env.SLACK_TOKEN, {
-//  logLevel: LogLevel.DEBUG,
+  //  logLevel: LogLevel.DEBUG,
 });
 let conversationHistory;
-let channelId = "C01PH1LAT1U";
+let channelId = "C01Q5F1V7E1";
 
 (async () => {
   try {
@@ -16,7 +16,7 @@ let channelId = "C01PH1LAT1U";
     conversationHistory = result.messages;
 
     // Print results
-//    console.log(conversationHistory.length + " messages found in " + channelId);
+    //    console.log(conversationHistory.length + " messages found in " + channelId);
     console.log(JSON.stringify(conversationHistory));
   } catch (error) {
     console.error(error);
