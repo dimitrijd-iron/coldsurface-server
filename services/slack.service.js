@@ -45,4 +45,6 @@ class SlackService {
   };
 }
 
-module.exports = SlackService;
+const slack = new SlackService();
+
+module.exports = slack;
