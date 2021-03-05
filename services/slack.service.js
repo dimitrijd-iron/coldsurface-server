@@ -1,7 +1,8 @@
 /*
-    SLACK API
-    REQUIRES APP-SPECIFIC SLACK_TOKEN 
-    EACH APP CAN ACCSS A WORKPLACE 
+    SLACK WEB API
+    NPM PACKAGE: "@slack/web-api"
+    ENV VARIABLE: 
+        SLACK_TOKEN  
 */
 
 const { WebClient, LogLevel } = require("@slack/web-api");

@@ -10,19 +10,7 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 });
 
 const analyzeParams = {
-  text: `
-  "test 123 Tue Mar 2 16:26"
-"AAAAA Tue 7:39 test"
-"<@U01PQ2XPQ91> has joined the channel"
-"into a .env"
-"just joined IronHack - it's amazing!!! I love it! :)"
-"<https://api.slack.com/apps>"
-"<@U01PHDA47JA> has joined the channel"
-"<@U01PPQEP70S> hey this is, guess what, another test message!"
-"random test message"
-"<@U01PPQEP70S> has joined the channel"
-`,
-
+  text: "life is beautiful",
   features: {
     emotion: {
       document: true,
