@@ -28,7 +28,7 @@ insertRawData = async (rawdata) => {
     });
 };
 
-(async () => {
+updateRawData = async () => {
   // get channel (id, name) list from Slack
   let slackChannels = await slack.getChannels();
   slackChannels = await slackChannels.channels.map(({ id, name }) => {
@@ -84,5 +84,9 @@ insertRawData = async (rawdata) => {
     await insertRawData(deltaMessages);
     // console.log(chan, deltaMessages.length, " new messages.");
   }
-  console.log("---------- completed, mongo connection left open");
-})();
+  setTimeout(() => {
+    console.log("---------- completed, mongo connection left open");
+  }, 2000);
+};
+
+module.exports = updateRawData;

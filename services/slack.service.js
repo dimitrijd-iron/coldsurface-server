@@ -14,7 +14,7 @@ class SlackService {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   getChannels = async () => {
     try {
