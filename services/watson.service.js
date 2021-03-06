@@ -35,7 +35,22 @@ class WatsonService {
         return analysisResults.result;
       })
       .catch((err) => {
-        console.log("error:", err);
+        console.log("Watson error. Set sentiment, emotion to NaN", err.body);
+        return {
+          sentiment: { document: { score: undefined, label: undefined } },
+          language: undefined,
+          emotion: {
+            document: {
+              emotion: {
+                sadness: undefined,
+                joy: undefined,
+                fear: undefined,
+                disgust: undefined,
+                anger: undefined,
+              },
+            },
+          },
+        };
       });
   };
 }

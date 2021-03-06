@@ -86,8 +86,11 @@ const seedDB = async () => {
     const channelList = await Channel.create(channels);
     console.log("created channelList");
 
-    messages[0].channel = channelList[0]._id;
-    messages[1].channel = channelList[0]._id;
+    // messages[0].channel = channelList[0]._id;
+    // messages[1].channel = channelList[0]._id;
+    messages[0].channel = "C01PH1LAT1U";
+    messages[1].channel = "C01PH1LAT1U";
+
     const messageList = await RawData.create(messages);
     console.log("created messageList");
 

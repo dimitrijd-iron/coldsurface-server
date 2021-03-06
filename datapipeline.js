@@ -2,6 +2,7 @@ const slack = require("./services/slack.service");
 const watson = require("./services/watson.service");
 const Channel = require("./models/channel.model");
 const RawData = require("./models/raw.data.model");
+const { mongo } = require("mongoose");
 
 require("./db.config");
 
@@ -30,64 +31,58 @@ insertRawData = async (rawdata) => {
 (async () => {
   // get channel (id, name) list from Slack
   let slackChannels = await slack.getChannels();
-  slackChannels = slackChannels.channels.map(({ id, name }) => {
+  slackChannels = await slackChannels.channels.map(({ id, name }) => {
     return { channelId: id, name: name };
   });
   // get channel id list from Mongo
   let mongoChannels = await Channel.find({}, "-_id channelId");
-  mongoChannels = mongoChannels.map(({ channelId }) => channelId);
+  mongoChannels = await mongoChannels.map(({ channelId }) => channelId);
   // calculate delta channels
-  const deltaChannels = slackChannels.filter(
+  const deltaChannels = await slackChannels.filter(
     (element) => !mongoChannels.includes(element.channelId)
   );
+
   // insert delta channels
   await insertChannels(deltaChannels);
 
   for (chan of slackChannels.map(({ channelId }) => channelId)) {
     // for each existing channel in slack, get the message history (ts, text, user)
-    // console.log("===================", chan, "===================");
+    console.log("=====================", chan, "=====================");
     let slackMessages = await slack.getMessages(chan);
     slackMessages = slackMessages.messages.map(({ ts, text, user }) => {
       return { ts, text, user };
     });
-    // console.log(slackMessages);
     // get message natural keys ts from Mongo
-    let mongoMessages = await RawData.find({ channelId: chan }, "-_id ts");
+    let mongoMessages = await RawData.find({ channel: chan }, "-_id ts");
     mongoMessages = mongoMessages.map(({ ts }) => ts);
-    // console.log("mongo messages ----", mongoMessages);
     // calculate delta messages
-    const deltaMessages = slackMessages.filter(
-      (element) => !slackMessages.includes(element.ts)
+    const deltaMessages = await slackMessages.filter(
+      (element) => !mongoMessages.includes(element.ts)
     );
-    console.log(
-      "vvvvvvvv ------- vvvvv ------ vvvvv DELTA ---------vvvvvvvv-----vvvvvvv"
-    );
-    for (ndex in deltaMessages) {
+    console.log(deltaMessages.length, " new messages in channel ", chan);
+
+    console.log("vvvv ---- vvvvv ----vvvv DELTA vvvv ---- vvvvv ----vvvv ");
+
+    // enriching raw data with Watson, standard time stamp and internal keys??
+    for (ndx in deltaMessages) {
+      deltaMessages[ndx].channel = chan;
+      deltaMessages[ndx].tsDate = new Date(deltaMessages[ndx].ts * 1000);
       const nlpResults = await watson.get(deltaMessages[ndx].text);
-      deltaMessages[ndx].sentimentScore = nlpResults.sentiment.document.score;
-      deltaMessages[ndx].emotion = nlpResults.emotion.document;
-      // tsDate =
+      nlpResults.sentiment
+        ? (deltaMessages[ndx].sentimentScore =
+            nlpResults.sentiment.document.score)
+        : (deltaMessages[ndx].sentimentScore = NaN);
+      nlpResults.emotion
+        ? (deltaMessages[ndx].emotion = {
+            ...nlpResults.emotion.document.emotion,
+          })
+        : (deltaMessages[ndx].emotion = NaN);
+      console.log(ndx, "--", chan, deltaMessages[ndx]);
     }
+
+    // inserting incremental raw data
+    await insertRawData(deltaMessages);
+    // console.log(chan, deltaMessages.length, " new messages.");
   }
+  console.log("---------- completed, mongo connection left open");
 })();
-
-// for each new channel, get slack messages
-
-// get message id list from Mongo
-
-// filter out the messages which are already in mongo
-
-// for each slack message, augmenting with Watson
-
-// for each augmented message record it into
-
-// slack.getMessages("C01QM6Q78KT").then((data) => console.log(data));
-
-// slack
-//   .postMessage("today is Friday after lunch", "#random")
-//   .then((data) => console.log(data));
-
-// watson
-//   .get()
-//   .then((data) => console.log(data))
-//   .catch((err) => console.log(err, "we got caught!"));

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const rawdataSchema = new Schema({
   ts: String,
   tsDate: { type: Date },
-  channel: { type: Schema.Types.ObjectId, ref: "Channel" },
+  channel: String,
   text: String,
   user: String,
   emotion: {
