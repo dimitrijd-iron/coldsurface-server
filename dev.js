@@ -41,10 +41,15 @@ require("./db.config");
 //   console.log("mongo messages :", mongoMessages);
 // })();
 
-(async () => {
-  await slack.postMessage(
-    "this is a new message full of hope and fingers crossed that the update will work smile!",
-    "#random",
-    true
-  );
-})();
+// (async () => {
+//   await slack.postMessage(
+//     "this is a new message full of hope and fingers crossed that the update will work smile!",
+//     "#random",
+//     true
+//   );
+// })();
+
+// console.log(process.env.SLACK);
+// const slackWorkSpaces = JSON.parse(process.env.SLACK);
+// console.log("slackWorkSpaces", slackWorkSpaces);
+// console.log(process.env[slackWorkSpaces[0]]);

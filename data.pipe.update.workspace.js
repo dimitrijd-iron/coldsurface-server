@@ -28,7 +28,7 @@ insertRawData = async (rawdata) => {
     });
 };
 
-updateRawData = async () => {
+updateWorkSpace = async (slack) => {
   // get channel (id, name) list from Slack
   let slackChannels = await slack.getChannels();
   slackChannels = await slackChannels.channels.map(({ id, name }) => {
@@ -71,12 +71,12 @@ updateRawData = async () => {
       nlpResults.sentiment
         ? (deltaMessages[ndx].sentimentScore =
             nlpResults.sentiment.document.score)
-        : (deltaMessages[ndx].sentimentScore = NaN);
+        : (deltaMessages[ndx].sentimentScore = undefined);
       nlpResults.emotion
         ? (deltaMessages[ndx].emotion = {
             ...nlpResults.emotion.document.emotion,
           })
-        : (deltaMessages[ndx].emotion = NaN);
+        : (deltaMessages[ndx].emotion = undefined);
       console.log(ndx, "--", chan, deltaMessages[ndx]);
     }
 
@@ -89,4 +89,4 @@ updateRawData = async () => {
   }, 2000);
 };
 
-module.exports = updateRawData;
+module.exports = updateWorkSpace;
