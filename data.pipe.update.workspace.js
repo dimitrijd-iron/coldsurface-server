@@ -8,9 +8,9 @@ require("./db.config");
 
 // helper function: insert new channels obtained from slack into mongo
 insertChannels = async (newChannels) => {
-  Channel.insertMany(newChannels)
+  await Channel.insertMany(newChannels)
     .then(function () {
-      console.log("New Channels Inserted: ", newChannels.length); // Success
+      console.log(`[coldsurface] New channels Inserted: `, newChannels.length); // Success
     })
     .catch(function (error) {
       console.log(error); // Failure
@@ -19,9 +19,9 @@ insertChannels = async (newChannels) => {
 
 // helper function: insert new raw data from slack and watson into mongo
 insertRawData = async (rawdata) => {
-  RawData.insertMany(rawdata)
+  await RawData.insertMany(rawdata)
     .then(function () {
-      console.log("New Raw Data Inserted: ", rawdata.length); // Success
+      console.log(`[coldsurface] New raw data inserted: `, rawdata.length); // Success
     })
     .catch(function (error) {
       console.log(error); // Failure
@@ -47,7 +47,6 @@ updateWorkSpace = async (slack) => {
 
   for (chan of slackChannels.map(({ channelId }) => channelId)) {
     // for each existing channel in slack, get the message history (ts, text, user)
-    console.log("=====================", chan, "=====================");
     let slackMessages = await slack.getMessages(chan);
     slackMessages = slackMessages.messages.map(({ ts, text, user }) => {
       return { ts, text, user };
@@ -59,9 +58,9 @@ updateWorkSpace = async (slack) => {
     const deltaMessages = await slackMessages.filter(
       (element) => !mongoMessages.includes(element.ts)
     );
-    console.log(deltaMessages.length, " new messages in channel ", chan);
-
-    console.log("vvvv ---- vvvvv ----vvvv DELTA vvvv ---- vvvvv ----vvvv ");
+    console.log(
+      `[coldsurface] ${deltaMessages.length} new messages in channel ${chan}`
+    );
 
     // enriching raw data with Watson, standard time stamp and internal keys??
     for (ndx in deltaMessages) {
@@ -77,16 +76,19 @@ updateWorkSpace = async (slack) => {
             ...nlpResults.emotion.document.emotion,
           })
         : (deltaMessages[ndx].emotion = undefined);
-      console.log(ndx, "--", chan, deltaMessages[ndx]);
+      console.log(
+        "[coldsurface] message#",
+        ndx + 1,
+        "--",
+        chan,
+        deltaMessages[ndx]
+      );
     }
 
     // inserting incremental raw data
     await insertRawData(deltaMessages);
-    // console.log(chan, deltaMessages.length, " new messages.");
   }
-  setTimeout(() => {
-    console.log("---------- completed, mongo connection left open");
-  }, 2000);
+  console.log(`[coldsurface] Workspace completed.`);
 };
 
 module.exports = updateWorkSpace;

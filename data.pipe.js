@@ -7,27 +7,42 @@ const { mongo } = require("mongoose");
 require("./db.config");
 
 updateDataPipe = async () => {
-  console.log("[coldsurface] Updating all workspaces...");
-  const slackWorkSpaces = JSON.parse(process.env.SLACK);
+  let response = undefined;
+  console.log("[coldsurface] Updating workspaces...");
+  const slackWorkSpaces = await JSON.parse(process.env.SLACK);
+  console.log(
+    `[coldsurface] There are ${
+      slackWorkSpaces.length
+    } listed slack work spaces: \n[coldsurface] ${JSON.stringify(
+      slackWorkSpaces
+    )}`
+  );
+  if (!slackWorkSpaces) {
+    console.log("[coldsurface] SLACK env undefined.  Process terminated");
+    return;
+  }
   for (sws of slackWorkSpaces) {
-    let token = process.env[sws];
+    let token = await process.env[sws];
+    // console.log("token", token); // DEBUG
     let slack;
     if (!token) {
       console.log(
-        `  [coldsurface] Token for workspace ${sws} is undefined. Updating skipped.`
+        `[coldsurface] The token for workspace ${sws} is undefined. Update skipped.`
       );
       continue;
     }
-    console.log(`  [coldsurface] Connecting to ${sws} workspace.`);
-    slack = new SlackService(token);
-    updateWorkSpace(slack);
+    console.log(`[coldsurface] Connecting to ${sws} workspace.`);
+    slack = await new SlackService(token);
+    response = await slack.getChannels();
+    // console.log("response", response); // DEBUG
+    if (!response) {
+      console.log(
+        `[coldsurface] The connection for workspace ${sws} is unavailable. Update skipped.`
+      );
+      continue;
+    }
+    await updateWorkSpace(slack);
   }
-
-  //   console.log("slackWorkSpaces", slackWorkSpaces);
-
-  //   console.log(process.env[slackWorkSpaces[0]]);
-
-  // updateWorkSpace();
 };
 
 updateDataPipe();
