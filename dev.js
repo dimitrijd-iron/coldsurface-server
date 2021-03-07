@@ -6,6 +6,9 @@ const RawData = require("./models/raw.data.model");
 require("dotenv").config();
 require("./db.config");
 
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database(":memory:");
+
 // slack.getMessages("C01PH1LAT1U").then((data) => console.log(data));
 
 // slack
@@ -55,44 +58,93 @@ require("./db.config");
 // console.log("slackWorkSpaces", slackWorkSpaces);
 // console.log(process.env[slackWorkSpaces[0]]);
 
-(async () => {
+// // console.log(data);
+// const df = new DF.DataFrame(data);
+// const summary = df
+//   .groupBy((row) => row.day)
+//   .select((group) => ({
+//     day: group.first().day,
+//     workspace: group.first().workspace,
+//     channel: group.first().channel,
+//     joy: group
+//       .deflate((row) => row.joy)
+//       .average()
+//       .toFixed(2),
+//     sadness: group
+//       .deflate((row) => row.sadness)
+//       .average()
+//       .toFixed(2),
+//     fear: group
+//       .deflate((row) => row.fear)
+//       .average()
+//       .toFixed(2),
+//     disgust: group
+//       .deflate((row) => row.disgust)
+//       .average()
+//       .toFixed(2),
+//     anger: group
+//       .deflate((row) => row.anger)
+//       .average()
+//       .toFixed(2),
+//     sentiment: group
+//       .deflate((row) => row.sentiment)
+//       .average()
+//       .toFixed(2),
+//   }))
+//   .inflate()
+//   .toArray();
+
+getRawData = async () => {
   let data = await RawData.find();
-  data = data.map((el) => {
+  data = await data.map((el) => {
     return {
-      ...el,
-      year: el.tsDate.getFullYear(),
-      month: el.tsDate.getMonth() + 1,
-      day: el.tsDate.getDate(),
-      ISODate: el.tsDate.toISOString().slice(0, 10),
+      day: el.tsDate.toISOString().slice(0, 10),
+      workspace: el.workspace,
+      channel: el.channel,
+      numberOfMessages: 1,
+      sadness: el.emotion.sadness,
+      joy: el.emotion.joy,
+      fear: el.emotion.fear,
+      disgust: el.emotion.disgust,
+      anger: el.emotion.anger,
+      sentiment: el.sentimentScore,
     };
   });
+  return data;
+};
+
+transform = async () => {
+  console.log("here!");
+  const data = await getRawData();
   console.log(data);
 
-  //   let df = new DF.DataFrame([
-  //     { ones: 1, tens: 10 },
-  //     { ones: 2, tens: 20 },
-  //     { ones: 3, tens: 30 },
-  //   ]);
-  //   console.log(df);
+  db.serialize(function () {
+    db.run(`CREATE TABLE data (
+      info TEXT
+      ,day TEXT
+      ,workspace TEXT
+      ,channel TEXT
+      ,sadness REAL
+      ,joy REAL
+      ,fear REAL
+      ,disgust REAL
+      ,anger REAL
+      ,sentiment REAL
+      )`);
 
-  //   df = new DF.DataFrame(data);
-  //   console.log(df);
+    var stmt = db.prepare("INSERT INTO data VALUES (?)");
+    for (var i = 0; i < 10; i++) {
+      stmt.run(`${data[i]}
+        data[i]}`);
+    }
+    stmt.finalize();
 
-  //   let objects = df.toArray();
-  //   console.log(objects);
+    db.each("SELECT rowid AS id, info FROM data", function (err, row) {
+      console.log(row.id + ": " + row.info);
+    });
+  });
 
-  //   const summmarized = df
-  //     .orderBy((row) => row.ISODate)
-  //     .groupBy((row) => row.ISOdata))
-  //     .select((group) => ({
-  //       // Aggregate sales per client.
-  //       ClientName: group.first().ClientName,
-  //       Average: group.select((row) => row.Sales).average(), // Average sales per client.
-  //       Total: group.select((row) => row.Sales).sum(), // Sum sales per client.
-  //     }));
+  db.close();
+};
 
-  //   console.log(df);
-})();
-
-// let data = [ /* ... your data ... */ ];
-// let df = new dataForge.DataFrame(data);
+transform();

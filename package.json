@@ -14,6 +14,7 @@
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "data-forge": "^1.8.17",
+    "data-forge-fs": "^0.0.9",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
     "express": "~4.16.1",
@@ -22,7 +23,8 @@
     "ibm-watson": "^6.0.3",
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
-    "node-gyp": "^4.0.0"
+    "node-gyp": "^4.0.0",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "csv-parser": "^3.0.0",

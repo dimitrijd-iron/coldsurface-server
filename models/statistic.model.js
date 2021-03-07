@@ -3,17 +3,15 @@ const Schema = mongoose.Schema;
 
 const statsSchema = new Schema({
   day: { type: Date, default: Date.now },
-  workplace: String,
+  workspace: String,
   channel: String,
   numberOfMessages: Number,
-  emotionAverage: {
-    sadness: Number,
-    joy: Number,
-    fear: Number,
-    disgust: Number,
-    anger: Number,
-  },
-  sentimentScoreAverage: Number,
+  sadness: Number,
+  joy: Number,
+  fear: Number,
+  disgust: Number,
+  anger: Number,
+  sentiment: Number,
   // rawDataKeys: [{ type: Schema.Types.ObjectId, ref: "RawData" }], // backlog
 });
 
