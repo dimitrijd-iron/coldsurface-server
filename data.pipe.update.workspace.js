@@ -28,7 +28,7 @@ insertRawData = async (rawdata) => {
     });
 };
 
-updateWorkSpace = async (slack) => {
+updateWorkSpace = async (slack, workSpaceName = "workspace") => {
   // get channel (id, name) list from Slack
   let slackChannels = await slack.getChannels();
   slackChannels = await slackChannels.channels.map(({ id, name }) => {
@@ -64,6 +64,7 @@ updateWorkSpace = async (slack) => {
 
     // enriching raw data with Watson, standard time stamp and internal keys??
     for (ndx in deltaMessages) {
+      deltaMessages[ndx].workspace = workSpaceName;
       deltaMessages[ndx].channel = chan;
       deltaMessages[ndx].tsDate = new Date(deltaMessages[ndx].ts * 1000);
       const nlpResults = await watson.get(deltaMessages[ndx].text);
@@ -78,7 +79,7 @@ updateWorkSpace = async (slack) => {
         : (deltaMessages[ndx].emotion = undefined);
       console.log(
         "[coldsurface] message#",
-        ndx + 1,
+        ndx,
         "--",
         chan,
         deltaMessages[ndx]

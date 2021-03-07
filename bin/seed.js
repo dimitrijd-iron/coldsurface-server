@@ -22,6 +22,7 @@ const messages = [
   {
     ts: "1614955443.000100",
     tsDate: new Date(1614955443.0001 * 1000),
+    workspace: "KAGGLE",
     channel: undefined,
     text: "today is Friday after lunch",
     user: "U01PPQEP70S",
@@ -37,6 +38,7 @@ const messages = [
   {
     ts: "1614888166.000300",
     tsDate: new Date(1614888166.0003 * 1000),
+    workspace: "KAGGLE",
     channel: undefined,
     text: "this is another test in the random channel",
     user: "U01PPQEP70S",

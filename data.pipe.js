@@ -21,25 +21,25 @@ updateDataPipe = async () => {
     console.log("[coldsurface] SLACK env undefined.  Process terminated.");
     return;
   }
-  for (sws of slackWorkSpaces) {
-    let token = await process.env[sws];
+  for (workSpace of slackWorkSpaces) {
+    let token = await process.env[workSpace];
     let slack;
     if (!token) {
       console.log(
-        `[coldsurface] The token for workspace ${sws} is undefined. Update skipped.`
+        `[coldsurface] The token for workspace ${workSpace} is undefined. Update skipped.`
       );
       continue;
     }
-    console.log(`[coldsurface] Connecting to ${sws} workspace.`);
-    slack = await new SlackService(token);
-    response = await slack.getChannels();
+    console.log(`[coldsurface] Connecting to ${workSpace} workspace.`);
+    slack = await new SlackService(token); // always returns an object, even with no token
+    response = await slack.getChannels(); // dummy call to test service availability
     if (!response) {
       console.log(
-        `[coldsurface] The connection for workspace ${sws} is unavailable. Update skipped.`
+        `[coldsurface] The connection for workspace ${workSpace} is unavailable. Update skipped.`
       );
       continue;
     }
-    await updateWorkSpace(slack);
+    await updateWorkSpace(slack, workSpace);
   }
 };
 

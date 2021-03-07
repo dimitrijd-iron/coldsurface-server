@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const rawdataSchema = new Schema({
   ts: String,
   tsDate: { type: Date },
+  workspace: String,
   channel: String,
   text: String,
   user: String,
