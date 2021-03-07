@@ -3,6 +3,7 @@ const watson = require("./services/watson.service");
 const DF = require("data-forge");
 const Channel = require("./models/channel.model");
 const RawData = require("./models/raw.data.model");
+const { ImATeapot } = require("http-errors");
 require("dotenv").config();
 require("./db.config");
 
@@ -94,14 +95,13 @@ const db = new sqlite3.Database(":memory:");
 //   .inflate()
 //   .toArray();
 
-getRawData = async () => {
+getRawDataFlat = async () => {
   let data = await RawData.find();
   data = await data.map((el) => {
     return {
       day: el.tsDate.toISOString().slice(0, 10),
       workspace: el.workspace,
       channel: el.channel,
-      numberOfMessages: 1,
       sadness: el.emotion.sadness,
       joy: el.emotion.joy,
       fear: el.emotion.fear,
@@ -114,37 +114,64 @@ getRawData = async () => {
 };
 
 transform = async () => {
-  console.log("here!");
-  const data = await getRawData();
+  console.log("[coldsurface] Reading raw data from mongodb.");
+  const data = await getRawDataFlat();
   console.log(data);
+  console.log("[coldsurface] Read raw data from mongodb.");
+  let summary = [];
 
   db.serialize(function () {
     db.run(`CREATE TABLE data (
-      info TEXT
-      ,day TEXT
+      day TEXT
       ,workspace TEXT
       ,channel TEXT
-      ,sadness REAL
       ,joy REAL
+      ,sadness REAL
       ,fear REAL
       ,disgust REAL
       ,anger REAL
       ,sentiment REAL
       )`);
 
-    var stmt = db.prepare("INSERT INTO data VALUES (?)");
-    for (var i = 0; i < 10; i++) {
-      stmt.run(`${data[i]}
-        data[i]}`);
+    var stmt = db.prepare(
+      `INSERT INTO data(day, workspace, channel, joy, sadness, fear, disgust, anger, sentiment) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    );
+
+    for (let i = 0; i < data.length; i++) {
+      stmt.run(
+        data[i].day,
+        data[i].workspace,
+        data[i].channel,
+        data[i].joy,
+        data[i].sadness,
+        data[i].fear,
+        data[i].disgust,
+        data[i].anger,
+        data[i].sentiment
+      );
     }
+
     stmt.finalize();
 
-    db.each("SELECT rowid AS id, info FROM data", function (err, row) {
-      console.log(row.id + ": " + row.info);
-    });
+    console.log("[coldsurface] Data load completed. Calculating stats.");
+
+    db.each(
+      `SELECT day, workspace, channel, count(*) AS numberOfMessages, 
+       AVG(joy) AS joy, AVG(sadness) AS sadness, AVG(fear) AS fear,
+       AVG(disgust) AS disgust, AVG(anger) AS anger, AVG(sentiment) AS sentiment
+       FROM data
+       GROUP BY day, workspace, channel;`,
+      function (err, row) {
+        console.log(row);
+        summary.push(row);
+      }
+    );
   });
 
   db.close();
+  return summary;
+  console.log("[coldsurfce] Statistics completed and inserted into mongodb");
 };
 
 transform();
