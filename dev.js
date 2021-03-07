@@ -1,5 +1,6 @@
 const slack = require("./services/slack.service");
 const watson = require("./services/watson.service");
+const DF = require("data-forge");
 const Channel = require("./models/channel.model");
 const RawData = require("./models/raw.data.model");
 require("dotenv").config();
@@ -53,3 +54,45 @@ require("./db.config");
 // const slackWorkSpaces = JSON.parse(process.env.SLACK);
 // console.log("slackWorkSpaces", slackWorkSpaces);
 // console.log(process.env[slackWorkSpaces[0]]);
+
+(async () => {
+  let data = await RawData.find();
+  data = data.map((el) => {
+    return {
+      ...el,
+      year: el.tsDate.getFullYear(),
+      month: el.tsDate.getMonth() + 1,
+      day: el.tsDate.getDate(),
+      ISODate: el.tsDate.toISOString().slice(0, 10),
+    };
+  });
+  console.log(data);
+
+  //   let df = new DF.DataFrame([
+  //     { ones: 1, tens: 10 },
+  //     { ones: 2, tens: 20 },
+  //     { ones: 3, tens: 30 },
+  //   ]);
+  //   console.log(df);
+
+  //   df = new DF.DataFrame(data);
+  //   console.log(df);
+
+  //   let objects = df.toArray();
+  //   console.log(objects);
+
+  //   const summmarized = df
+  //     .orderBy((row) => row.ISODate)
+  //     .groupBy((row) => row.ISOdata))
+  //     .select((group) => ({
+  //       // Aggregate sales per client.
+  //       ClientName: group.first().ClientName,
+  //       Average: group.select((row) => row.Sales).average(), // Average sales per client.
+  //       Total: group.select((row) => row.Sales).sum(), // Sum sales per client.
+  //     }));
+
+  //   console.log(df);
+})();
+
+// let data = [ /* ... your data ... */ ];
+// let df = new dataForge.DataFrame(data);

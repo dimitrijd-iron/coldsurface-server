@@ -6,6 +6,7 @@ const salt = bcrypt.genSaltSync(5);
 const Channel = require("../models/channel.model");
 const RawData = require("../models/raw.data.model");
 const User = require("../models/service.user.model");
+const Stats = require("../models/statistic.model");
 
 const channels = [
   {
@@ -60,6 +61,93 @@ messages[0].tsDate.setMinutes(0, 0, 0);
 messages[1].tsDate.setHours(0);
 messages[1].tsDate.setMinutes(0, 0, 0);
 
+const stats = [
+  {
+    day: "2021-03-02",
+    workspace: "ih-bcn-web-jan2021",
+    channel: "#random",
+    numberOfMessages: 10,
+    emotionAverage: {
+      sadness: 0.31233,
+      joy: 0.91233,
+      fear: 0.61233,
+      disgust: 0.41233,
+      anger: 0.31233,
+    },
+    sentimentScoreAverage: 0.9,
+  },
+  {
+    day: "2021-03-02",
+    workspace: "ih-bcn-web-jan2021",
+    channel: "#random",
+    numberOfMessages: 3,
+    emotionAverage: {
+      sadness: 0.01233,
+      joy: 0.01233,
+      fear: 0.61233,
+      disgust: 0.01233,
+      anger: 0.01233,
+    },
+    sentimentScoreAverage: 0.2,
+  },
+  {
+    day: "2021-03-03",
+    workspace: "ih-bcn-web-jan2021",
+    channel: "#random",
+    numberOfMessages: 2,
+    emotionAverage: {
+      sadness: 0.91233,
+      joy: 0.00233,
+      fear: 0.00233,
+      disgust: 0.00233,
+      anger: 0.00233,
+    },
+    sentimentScoreAverage: -0.6,
+  },
+  {
+    day: "2021-03-02",
+    workspace: "ih-bcn-web-oct2020",
+    channel: "#general",
+    numberOfMessages: 10,
+    emotionAverage: {
+      sadness: 0.31233,
+      joy: 0.91233,
+      fear: 0.61233,
+      disgust: 0.41233,
+      anger: 0.31233,
+    },
+    sentimentScoreAverage: 0.9,
+  },
+  {
+    day: "2021-03-02",
+    workspace: "ih-bcn-web-oct2020",
+    channel: "#general",
+    numberOfMessages: 3,
+    emotionAverage: {
+      sadness: 0.01233,
+      joy: 0.01233,
+      fear: 0.61233,
+      disgust: 0.01233,
+      anger: 0.01233,
+    },
+    sentimentScoreAverage: 0.2,
+  },
+  {
+    day: "2021-03-03",
+    workspace: "ih-bcn-web-oct2020",
+    channel: "#general",
+    numberOfMessages: 2,
+    emotionAverage: {
+      sadness: 0.91233,
+      joy: 0.00233,
+      fear: 0.00233,
+      disgust: 0.00233,
+      anger: 0.00233,
+    },
+    sentimentScoreAverage: -0.6,
+  },
+];
+
 const users = [
   {
     name: "John",
@@ -100,6 +188,9 @@ const seedDB = async () => {
 
     const userList = await User.create(users);
     console.log("created userList");
+
+    const statsList = await Stats.create(stats);
+    console.log("created statsList");
 
     await mongoose.connection.close();
 
