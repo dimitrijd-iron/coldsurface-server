@@ -18,12 +18,11 @@ updateDataPipe = async () => {
     )}`
   );
   if (!slackWorkSpaces) {
-    console.log("[coldsurface] SLACK env undefined.  Process terminated");
+    console.log("[coldsurface] SLACK env undefined.  Process terminated.");
     return;
   }
   for (sws of slackWorkSpaces) {
     let token = await process.env[sws];
-    // console.log("token", token); // DEBUG
     let slack;
     if (!token) {
       console.log(
@@ -34,7 +33,6 @@ updateDataPipe = async () => {
     console.log(`[coldsurface] Connecting to ${sws} workspace.`);
     slack = await new SlackService(token);
     response = await slack.getChannels();
-    // console.log("response", response); // DEBUG
     if (!response) {
       console.log(
         `[coldsurface] The connection for workspace ${sws} is unavailable. Update skipped.`
