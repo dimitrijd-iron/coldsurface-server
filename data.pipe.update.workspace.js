@@ -6,6 +6,8 @@ const { mongo } = require("mongoose");
 
 require("./db.config");
 
+// students only channel: C01DA1X86E7
+
 // helper function: insert new channels obtained from slack into mongo
 insertChannels = async (newChannels) => {
   await Channel.insertMany(newChannels)
@@ -32,7 +34,7 @@ updateWorkSpace = async (slack, workSpaceName = "workspace") => {
   // get channel (id, name) list from Slack
   let slackChannels = await slack.getChannels();
   slackChannels = await slackChannels.channels.map(({ id, name }) => {
-    return { channelId: id, name: name };
+    return { workspace: workSpaceName, channelId: id, name: name };
   });
   // get channel id list from Mongo
   let mongoChannels = await Channel.find({}, "-_id channelId");
@@ -48,6 +50,12 @@ updateWorkSpace = async (slack, workSpaceName = "workspace") => {
   for (chan of slackChannels.map(({ channelId }) => channelId)) {
     // for each existing channel in slack, get the message history (ts, text, user)
     let slackMessages = await slack.getMessages(chan);
+    if (!slackMessages) {
+      console.log(
+        `[coldsurface] channel ${chan} not available to app. Skipping update.`
+      );
+      continue;
+    }
     slackMessages = slackMessages.messages.map(({ ts, text, user }) => {
       return { ts, text, user };
     });

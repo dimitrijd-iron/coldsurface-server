@@ -9,10 +9,12 @@ const User = require("../models/service.user.model");
 
 const channels = [
   {
+    workspace: "KAGGLE",
     channelId: "C01PH1LAT1U",
     name: "random",
   },
   {
+    workspace: "KAGGLE",
     channelId: "C01PQ10RD51",
     name: "general",
   },

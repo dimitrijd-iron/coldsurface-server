@@ -35,7 +35,10 @@ class WatsonService {
         return analysisResults.result;
       })
       .catch((err) => {
-        console.log("Watson error. Set sentiment, emotion to NaN", err.body);
+        console.log(
+          "[cold surface] Message too short. Set sentiment, emotion to undefined.",
+          err.body
+        );
         return {
           sentiment: { document: { score: undefined, label: undefined } },
           language: undefined,

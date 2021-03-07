@@ -31,7 +31,8 @@ class SlackService {
       });
       return result;
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error));
+      return undefined;
     }
   };
 
