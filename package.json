@@ -24,7 +24,11 @@
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
     "node-gyp": "^4.0.0",
+<<<<<<< HEAD
+    "recharts": "^2.0.8"
+=======
     "sqlite3": "^5.0.2"
+>>>>>>> 56a7ef884bb1797f4d408db98e2a7d8e0687e93e
   },
   "devDependencies": {
     "csv-parser": "^3.0.0",

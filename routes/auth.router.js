@@ -41,49 +41,49 @@ router.post('/signup', isNotLoggedIn, validationLogin, async (req, res, next) =>
 })
 
 // POST '/auth/login'
-// router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => {
-//   try {
-//     const { username, password } = req.body;
+router.post('/login', isNotLoggedIn, validationLogin, async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
     
-//     const user = await User.findOne({ username });
-//     if (!user) return next(createError(404));  // Bad Request
+    const user = await User.findOne({ username });
+    if (!user) return next(createError(404));  // Bad Request
 
-//     const passwordCorrect = await bcrypt.compare(password, user.password);
+    const passwordCorrect = await bcrypt.compare(password, user.password);
 
-//     if (passwordCorrect) {
-//       user.password = '*';
-//       req.session.currentUser = user;
+    if (passwordCorrect) {
+      user.password = '*';
+      req.session.currentUser = user;
 
-//       res.status(200).json(user);
-//     }
-//     else {
-//       next(createError(401)); // Unauthorized
-//     }
+      res.status(200).json(user);
+    }
+    else {
+      next(createError(401)); // Unauthorized
+    }
 
-//   } catch (error) {
-//     next( createError(error) ); // 500 Internal Server Error (by default)
-//   }
-// })
+  } catch (error) {
+    next(createError(error) ); // 500 Internal Server Error (by default)
+  }
+})
 
 // GET '/auth/logout'
-// router.get('/logout', isLoggedIn, (req, res, next) => {
-//   req.session.destroy(function (err) {
-//     if (err) next(createError(err));
-//     else {
-//       res
-//         .status(204) // No Content
-//         .send();
-//     }
+router.get('/logout', isLoggedIn, (req, res, next) => {
+  req.session.destroy(function (err) {
+    if (err) next(createError(err));
+    else {
+      res
+        .status(204) // No Content
+        .send();
+    }
 
 
-//   })
-// })
+  })
+})
 
 // GET '/auth/me'
-// router.get('/me', isLoggedIn, (req, res, next) => {
-//   const currentUserData = req.session.currentUser;
+router.get('/me', isLoggedIn, (req, res, next) => {
+  const currentUserData = req.session.currentUser;
 
-//   res.status(200).json(currentUserData);
-// })
+  res.status(200).json(currentUserData);
+})
 
 module.exports = router;
