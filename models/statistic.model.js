@@ -1,22 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const statisticSchema = new Schema({
+const statsSchema = new Schema({
   day: { type: Date, default: Date.now },
-  user: String,
-  channel: { type: Schema.Types.ObjectId, ref: "Channel" },
+  workspace: String,
+  channel: String,
   numberOfMessages: Number,
-  emotionAverage: {
-    sadness: Number,
-    joy: Number,
-    fear: Number,
-    disgust: Number,
-    anger: Number,
-  },
-  sentimentScoreAverage: Number,
-  rawDataKeys: [{ type: Schema.Types.ObjectId, ref: "RawData" }], // backlog
+  sadness: Number,
+  joy: Number,
+  fear: Number,
+  disgust: Number,
+  anger: Number,
+  sentiment: Number,
+  // rawDataKeys: [{ type: Schema.Types.ObjectId, ref: "RawData" }], // backlog
 });
 
-const Statistic = mongoose.model("Statistic", statisticSchema);
+const Stats = mongoose.model("Stat", statsSchema);
 
-module.exports = Statistic;
+module.exports = Stats;

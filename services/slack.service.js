@@ -1,16 +1,15 @@
 /*
     SLACK WEB API
     NPM PACKAGE: "@slack/web-api"
-    ENV VARIABLE: 
-        SLACK_TOKEN  
+    ENV VARIABLE: passed as token to the constructor
 */
 
 const { WebClient, LogLevel } = require("@slack/web-api");
 
 class SlackService {
-  constructor() {
+  constructor(token) {
     try {
-      this.client = new WebClient(process.env.SLACK_TOKEN, {});
+      this.client = new WebClient(token, {});
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +31,8 @@ class SlackService {
       });
       return result;
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error));
+      return undefined;
     }
   };
 
@@ -45,6 +45,7 @@ class SlackService {
   };
 }
 
-const slack = new SlackService();
+// const slack = new SlackService();
+// module.exports = slack;
 
-module.exports = slack;
+module.exports = SlackService;

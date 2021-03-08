@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const channelSchema = new Schema({
+  workspace: String,
   channelId: String,
   name: String,
 });
