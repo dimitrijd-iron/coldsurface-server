@@ -12,6 +12,7 @@ require("dotenv").config();
 const authRouter = require("./routes/auth.router");
 const usersRouter = require("./routes/users.router");
 const projectsRouter = require("./routes/projects.router");
+const dataRouter = require("./routes/data.router");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -60,8 +61,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTER MIDDLEWARE
 app.use("/auth", authRouter);
 
-app.use("/api/user", usersRouter);
-app.use("/api/projects", projectsRouter);
+app.use("/api", dataRouter);
+// app.use("/api/user", usersRouter);
+// app.use("/api/projects", projectsRouter);
 
 // ERROR HANDLING
 //  Catch 404 and respond with error message
