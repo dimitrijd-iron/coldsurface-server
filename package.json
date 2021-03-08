@@ -24,11 +24,14 @@
     "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
     "node-gyp": "^4.0.0",
-    "recharts": "^2.0.8", 
+    "recharts": "^2.0.8",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "csv-parser": "^3.0.0",
     "nodemon": "^1.19.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
