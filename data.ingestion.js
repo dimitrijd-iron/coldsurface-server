@@ -1,5 +1,6 @@
 const SlackService = require("./services/slack.service");
 const updateWorkSpace = require("./data.worker");
+require("dotenv").config();
 
 ingestData = async () => {
   let response = undefined;

@@ -5,7 +5,7 @@
         IBM_API_KEY
         IBM_NLP_ENDPOINT
 */
-
+require("dotenv").config();
 const NaturalLanguageUnderstandingV1 = require("ibm-watson/natural-language-understanding/v1");
 const { IamAuthenticator } = require("ibm-watson/auth");
 
