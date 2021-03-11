@@ -10,8 +10,6 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/auth.router");
-const usersRouter = require("./routes/users.router");
-const projectsRouter = require("./routes/projects.router");
 const dataRouter = require("./routes/data.router");
 
 // MONGOOSE CONNECTION
