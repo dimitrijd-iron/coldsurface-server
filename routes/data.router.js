@@ -1,6 +1,7 @@
 const express = require("express");
 const dataRouter = express.Router();
 const Stats = require("../models/statistic.model");
+const Channel = require("../models/channel.model");
 
 // HELPER FUNCTIONS
 const {
@@ -17,7 +18,9 @@ dataRouter.get(
   async (req, res, next) => {
     console.log("in data router");
     try {
-      const data = await Stats.find();
+      const data = {};
+      data.raw = await Stats.find();
+      data.channels = await Channel.find();
       if (!data) {
         return next(createError(400)); // Bad Request
       }
