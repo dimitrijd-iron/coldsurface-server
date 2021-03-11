@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const statsSchema = new Schema({
-  day: { type: Date, default: Date.now },
+  day: String, // { type: Date, default: Date.now },
   workspace: String,
   channel: String,
   numberOfMessages: Number,
